@@ -12,7 +12,7 @@ def add_task():
 
 def view_tasks():
     if not tasks:
-        print("\n\tNo tasks available\n")
+        print("\n\tNo tasks available")
         return
     
     for i, task in enumerate(tasks, start=1):
@@ -21,7 +21,18 @@ def view_tasks():
     print()
 
 def complete_task():
-    pass
+    if not tasks:
+        print("\n\tNo tasks available")
+        return
+    
+    index = int(input("\n\tEnter task number: "))-1
+    tasks[index]["status"] = True
+    print(f"\n\tTask '{tasks[index]['title']}' is marked as completed")
 
 def delete_task():
-    pass
+    if not tasks:
+        print("\n\tNo tasks available")
+        return
+    
+    index = int(input("\n\tEnter task number: "))-1
+    tasks.pop(index)

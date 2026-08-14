@@ -1,5 +1,5 @@
 from utils import menu
-from tasks import add_task, view_tasks
+from tasks import add_task, view_tasks, complete_task, delete_task
 
 while True:
     
@@ -13,12 +13,13 @@ while True:
         view_tasks()
     
     elif choice == "3":
-        pass
+        complete_task()
     
     elif choice == "4":
-        pass
+        delete_task()
     
     elif choice == "5":
+        print("\n\tExiting........\n")
         break
     
     else:
