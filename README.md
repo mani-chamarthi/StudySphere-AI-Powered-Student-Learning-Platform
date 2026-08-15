@@ -126,21 +126,6 @@ Enter task number: 1
 
 ---
 
-## Development Roadmap
-
-| Version | Description | Status |
-| --- | --- | --- |
-| v1.0 | CLI Task Manager (List + Dictionary) | ✅ Completed |
-| v1.1 | Object-Oriented Programming (OOP) | ⏳ In Progress |
-| v2.0 | JSON Storage | ⏳ Planned |
-| v2.1 | SQLite Database | ⏳ Planned |
-| v3.0 | Flask Web Application | ⏳ Planned |
-| v3.1 | Authentication | ⏳ Planned |
-| v3.2 | REST API | ⏳ Planned |
-| v4.0 | AI-Powered Student Learning Platform | ⏳ Planned |
-
----
-
 ## Future Improvements
 
 - Convert the project to OOP
@@ -150,6 +135,47 @@ Enter task number: 1
 - Add search functionality
 - Add task priorities
 - Add due dates
+
+---
+
+## About the Project
+
+StudySphere is a learning-focused project designed to grow alongside my Python Full Stack journey.
+
+The project began as a simple command-line task manager that allows users to add, view, complete, and delete study tasks. As I learn new concepts, the application will be continuously upgraded by incorporating object-oriented programming, file handling, databases, backend development, and AI.
+
+The goal is not only to build a useful application but also to learn modern software development practices, including version control, project organization, database design, API development, and full-stack application development.
+
+StudySphere follows an incremental development approach, where each new version introduces new technologies and programming concepts.
+
+---
+
+## Objectives
+
+- Learn Python fundamentals
+- Practice object-oriented programming
+- Understand file handling and JSON
+- Learn database design with SQLite
+- Build RESTful APIs
+- Develop full-stack applications with Flask
+- Implement authentication and authorization
+- Integrate AI-based features
+- Follow Git and GitHub best practices
+
+---
+
+## Development Roadmap
+
+| Version | Description | Status |
+| --- | --- | --- |
+| v1.0 | CLI Task Manager (List + Dictionary) | ✅ Completed |
+| v1.1 | Object-Oriented Programming (OOP) | ⏳ Planned |
+| v2.0 | JSON Storage | ⏳ Planned |
+| v2.1 | SQLite Database | ⏳ Planned |
+| v3.0 | Flask Web Application | ⏳ Planned |
+| v3.1 | Authentication | ⏳ Planned |
+| v3.2 | REST API | ⏳ Planned |
+| v4.0 | AI-Powered Student Learning Platform | ⏳ Planned |
 
 ---
 
