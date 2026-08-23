@@ -1,28 +1,29 @@
 from utils import menu
-from tasks import add_task, view_tasks, complete_task, delete_task
+from task_manager import TaskManager
+
+manager = TaskManager()
 
 while True:
-    
     menu()
-    choice = input("\tChoose your choice(1-5):")
-    
+
+    choice = input("\nEnter your choice(1-5): ")
+
     if choice == "1":
-        add_task()
-    
+        title = input("\nEnter title for task: ")
+        manager.add_task(title)
+
     elif choice == "2":
-        view_tasks()
-    
+        manager.view_tasks()
+
     elif choice == "3":
-        complete_task()
-    
+        manager.complete_task()
+
     elif choice == "4":
-        delete_task()
-    
+        manager.delete_task()
+
     elif choice == "5":
-        print("\n\tExiting........\n")
+        print("\nGoodbye!\n")
         break
-    
+
     else:
-        print("\n\t\tInvalid Input")
-        
-    
+        print("\nInvalid choice")
