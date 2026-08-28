@@ -4,4 +4,10 @@ class Task:
         self.status = "Pending"
 
     def __str__(self):
-        return self.title
+        return f"{self.title} - {self.status}"
+    
+    def to_dict(self):
+        return {
+            "title": self.title,
+            "status": self.status
+        }

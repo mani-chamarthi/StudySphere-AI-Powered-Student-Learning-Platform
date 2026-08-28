@@ -1,9 +1,11 @@
 from  task import Task
+from utils import load_tasks, save_tasks
+import json
 
 class TaskManager:
     def __init__(self):
-        self.tasks = []
-    
+        self.tasks = load_tasks()
+
     def add_task(self, title):
 
         title = title.strip()
@@ -13,8 +15,11 @@ class TaskManager:
             return
 
         task = Task(title)
-        self.tasks.append(task)
-        print("\nTask added successfully")
+        
+        self.tasks.append(task.to_dict())
+        
+        if save_tasks(self.tasks):
+            print("\nTask added successfully")
     
     def view_tasks(self):
         if not self.tasks:
@@ -22,8 +27,9 @@ class TaskManager:
             return
         
         print("\n==========YOUR TASKS==========")
-        for number, task in enumerate(self.tasks, start=1):
-            print(f"{number}. {task} --> {task.status}")
+        for index, task in enumerate(self.tasks, start=1):
+            print(f"{index}. {task['title']} --> {task['status']}")
+        print("==============================")
     
     def complete_task(self):
         if not self.tasks:
@@ -38,12 +44,14 @@ class TaskManager:
         
             index = task_number - 1
         
-            if self.tasks[index].status == "Complete":
+            if self.tasks[index]["status"] == "Complete":
                 print("\nTask is already marked")
                 return
         
-            self.tasks[index].status = "Complete"
-            print("\nTask marked as complete")
+            self.tasks[index]["status"] = "Complete"
+            
+            if save_tasks(self.tasks):
+                print("\nTask marked as complete")
         
         except ValueError:
             print("Enter a valid task number")
@@ -63,7 +71,7 @@ class TaskManager:
 
             index = task_number - 1
 
-            if self.tasks[index].status == "Pending":
+            if self.tasks[index]["status"] == "Pending":
                 print("\nTask is not completed")
                 print("\nContinue delete")
                 print("\nEnter 1 to continue")
@@ -83,8 +91,9 @@ class TaskManager:
                     return
 
             del self.tasks[index]
-            print("\nTask is deleted successfully")
+            
+            if save_tasks(self.tasks):
+                print("\nTask is deleted successfully")
         
         except ValueError:
             print("Enter a valid task number")
-        
