@@ -1,4 +1,4 @@
-# StudySphere 📚
+# **StudySphere 📚**
 
 A simple command-line task management application built with Python.
 
@@ -8,9 +8,9 @@ learning project throughout my Python Full Stack journey.
 
 ---
 
-## Features
+## **Features**
 
-### v1.0 — Basic CLI Task Manager
+### **v1.0 — Basic CLI Task Manager**
 
 - Add new tasks
 - View all tasks
@@ -19,7 +19,7 @@ learning project throughout my Python Full Stack journey.
 - Menu-driven interface
 - List and dictionary-based task management
 
-### v1.1 — OOP + Exception Handling
+### **v1.1 — OOP + Exception Handling**
 
 - Object-Oriented Programming (OOP)
 - `Task` class for task objects
@@ -30,7 +30,7 @@ learning project throughout my Python Full Stack journey.
 - Safe task completion and deletion
 - `__str__()` magic method
 
-### v2.0 — JSON Storage
+### **v2.0 — JSON Storage**
 
 - Permanent task storage using JSON
 - Load tasks automatically when the application starts
@@ -43,70 +43,93 @@ learning project throughout my Python Full Stack journey.
 - Handling of invalid or corrupted JSON data
 - File handling using Python's `json` module
 
+### **v2.1 — SQLite Database**
+
+- Replaced JSON storage with SQLite database storage
+- Added `database.py`
+- Added SQLite database creation
+- Added automatic table creation
+- Added CRUD database operations
+- Added database exception handling
+- Added automatic database-generated task IDs
+- Added sequential display numbers for users
+- Added database ID and display-number separation
+- Added safe deletion confirmation for pending tasks
+- Added protection against marking an already completed task as complete
+
 ---
 
-## Technologies Used
+## **Technologies Used**
 
 - Python 3
 - Object-Oriented Programming
 - Exception Handling
-- File Handling
-- JSON
+- SQLite
+- SQL
+- JSON *(used in v2.0)*
+- File Handling *(used in v2.0)*
 - Git & GitHub
 
 ---
 
-## Project Structure
+## **Project Structure**
 
 ```text
 StudySphere/
 │
+├── database.py
 ├── main.py
 ├── task.py
 ├── task_manager.py
 ├── utils.py
-├── tasks.json
-├── README.md
-└── .gitignore
+├── tasks.db
+├── .gitignore
+└── README.md
 ```
 
-## File Description
+## **File Description**
 
 | File | Purpose |
 | --- | --- |
 | `main.py` | Runs the main application and handles the menu |
 | `task.py` | Contains the `Task` class |
 | `task_manager.py` | Handles task operations |
-| `utils.py` | Contains menu and JSON file handling functions |
-| `tasks.json` | Stores tasks permanently |
-| `README.md` | Project documentation |
+| `database.py` | Handles SQLite database operations |
+| `utils.py` | Contains the application menu |
+| `tasks.db` | SQLite database used for persistent task storage |
 | `.gitignore` | Specifies files ignored by Git |
+| `README.md` | Project documentation |
+
+> **Note:** `tasks.db` is generated automatically by the application and is ignored by Git.
 
 ---
 
-## How to Run
+## **How to Run**
 
-### Clone the repository
+### **Clone the repository**
 
 ```bash
 git clone <repository-url>
 ```
 
-### Move into the project directory
+### **Move into the project directory**
 
 ```bash
 cd StudySphere
 ```
 
-### Run the application
+### **Run the application**
 
 ```bash
 py main.py
 ```
 
+The SQLite database and required table are created automatically when the
+application starts.
+
 ---
 
-## Application Menu
+## **Application Menu**
 
 ```text
 =========== StudySphere ===========
@@ -122,9 +145,9 @@ py main.py
 
 ---
 
-## Example
+## **Example**
 
-### Add a task
+### **Add a task**
 
 ```text
 Enter your choice (1-5): 1
@@ -134,7 +157,7 @@ Enter title for task: Learn Python
 Task added successfully
 ```
 
-### View tasks
+### **View tasks**
 
 ```text
 Enter your choice (1-5): 2
@@ -142,11 +165,12 @@ Enter your choice (1-5): 2
 =========== YOUR TASKS ===========
 
 1. Learn Python -> Pending
+2. Complete Assignment -> Complete
 
 ===================================
 ```
 
-### Complete a task
+### **Complete a task**
 
 ```text
 Enter your choice (1-5): 3
@@ -156,121 +180,215 @@ Enter task number to mark as complete: 1
 Task marked as complete
 ```
 
-### Delete a task
+### **Delete a task**
 
 ```text
 Enter your choice (1-5): 4
 
 Enter task number to delete: 1
 
-Task is deleted successfully
+Task deleted successfully
+```
+
+### **Delete a pending task**
+
+```text
+Enter your choice (1-5): 4
+
+Enter task number to delete: 1
+
+Task is not completed
+
+Continue delete
+
+Enter 1 to continue
+
+Enter 0 to stop
+
+Delete the task or not: 0
+
+Task deletion discarded
 ```
 
 ---
 
-## Data Storage
+## **Data Storage**
 
-Starting from **v2.0**, StudySphere stores tasks permanently using a JSON file.
+Starting from **v2.1**, StudySphere uses **SQLite** for permanent task storage.
 
-The `tasks.json` file contains task information such as:
+The application automatically creates a database named:
 
-```json
-[
-    {
-        "title": "Learn Python",
-        "status": "Pending"
-    }
-]
+```text
+tasks.db
 ```
 
-The application uses:
+The database contains a `tasks` table with the following structure:
 
-- `load_tasks()` to load tasks from `tasks.json`
-- `save_tasks()` to save tasks to `tasks.json`
+```sql
+CREATE TABLE IF NOT EXISTS tasks (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    status TEXT NOT NULL
+);
+```
 
-If `tasks.json` does not exist, the application automatically creates it.
+The table contains the following fields:
 
-If the JSON file contains invalid data, the application safely initializes
-an empty task list.
+| Field | Description |
+| --- | --- |
+| `id` | Unique database ID generated by SQLite |
+| `title` | Task title |
+| `status` | Task status such as `Pending` or `Complete` |
+
+### **Database Operations**
+
+StudySphere uses the following functions in `database.py`:
+
+- `create_database()` to create the database table
+- `add_task()` to insert a new task
+- `get_tasks()` to retrieve tasks
+- `complete_task()` to update task status
+- `delete_task()` to remove a task
+
+The database layer uses SQLite parameterized queries to safely interact with
+the database.
 
 ---
 
-## Exception Handling
+## **Database ID and Display Number**
+
+StudySphere uses two different numbers for tasks.
+
+### **Database ID**
+
+SQLite automatically generates a unique ID for every task.
+
+For example:
+
+```text
+ID: 1
+ID: 2
+ID: 3
+ID: 4
+```
+
+If task ID `2` is deleted, the next task will not reuse that ID because the
+database uses:
+
+```text
+AUTOINCREMENT
+```
+
+For example:
+
+```text
+Existing IDs:
+
+1
+3
+4
+
+New task:
+
+5
+```
+
+This is normal database behavior.
+
+### **Display Number**
+
+Users do not need to work with database IDs.
+
+Instead, StudySphere displays sequential task numbers:
+
+```text
+=========== YOUR TASKS ===========
+
+1. Learn Python -> Pending
+2. Practice SQL -> Complete
+3. Complete Assignment -> Pending
+
+===================================
+```
+
+The display number is converted internally into the corresponding task
+object, and the actual database ID is used when performing SQLite operations.
+
+This keeps the user interface simple while maintaining reliable database IDs.
+
+---
+
+## **Exception Handling**
 
 StudySphere uses exception handling to make the application more reliable.
 
 Currently handled exceptions include:
 
-- `FileNotFoundError`
-- `json.JSONDecodeError`
+- `sqlite3.Error`
 - `ValueError`
-- `PermissionError`
-- `TypeError`
-- `OSError`
 - `KeyboardInterrupt`
 - `EOFError`
 
-### `FileNotFoundError`
+### **`sqlite3.Error`**
 
-Handles situations where `tasks.json` does not exist.
+Handles database-related errors while performing SQLite operations.
 
-The application automatically creates a new JSON file.
+For example:
 
-### `json.JSONDecodeError`
+```python
+except sqlite3.Error as error:
+    print(f"Database error: {error}")
+```
 
-Handles situations where `tasks.json` contains invalid or corrupted JSON data.
+The database functions return safe values when an error occurs.
 
-The application resets the task list and recreates valid JSON data.
+Examples:
 
-### `ValueError`
+```text
+add_task()       -> None
+get_tasks()      -> []
+complete_task()  -> 0
+delete_task()    -> 0
+```
+
+### **`ValueError`**
 
 Handles invalid task numbers entered by the user.
 
 For example:
 
 ```text
-Enter task number: abc
+Enter task number to mark as complete: abc
 
 Enter a valid task number
 ```
 
-### `PermissionError`
-
-Handles situations where the application does not have permission to save
-the task data.
-
-### `TypeError`
-
-Handles data that cannot be converted into valid JSON.
-
-### `OSError`
-
-Handles other file-system related errors.
-
-### `KeyboardInterrupt`
+### **`KeyboardInterrupt`**
 
 Handles user interruption using `Ctrl + C`.
 
-### `EOFError`
+The application exits gracefully instead of displaying a Python traceback.
+
+### **`EOFError`**
 
 Handles situations where input is unexpectedly terminated.
 
 ---
 
-## OOP Design
+## **OOP Design**
 
 StudySphere uses Object-Oriented Programming to organize the application.
 
-### `Task` Class
+### **`Task` Class**
 
 The `Task` class represents an individual task.
 
 It contains:
 
+- Task ID
 - Task title
 - Task status
 - `__str__()` method
-- `to_dict()` method
 
 Example:
 
@@ -278,7 +396,20 @@ Example:
 task = Task("Learn Python")
 ```
 
-### `TaskManager` Class
+The class definition is:
+
+```python
+class Task:
+    def __init__(self, title, status="Pending", task_id=None):
+        self.id = task_id
+        self.title = title
+        self.status = status
+
+    def __str__(self):
+        return f"{self.title} - {self.status}"
+```
+
+### **`TaskManager` Class**
 
 The `TaskManager` class manages the collection of tasks.
 
@@ -288,6 +419,8 @@ It provides functionality to:
 - View tasks
 - Complete tasks
 - Delete tasks
+- Find tasks using display numbers
+- Synchronize task objects with the database
 
 Example:
 
@@ -297,49 +430,102 @@ manager = TaskManager()
 
 ---
 
-## JSON File Handling
+## **SQLite Database Handling**
 
-StudySphere uses Python's built-in `json` module for persistent storage.
+StudySphere uses Python's built-in `sqlite3` module for database storage.
 
-### Loading data
+### **Creating a connection**
 
-```python
-json.load(file)
-```
-
-The `load_tasks()` function reads task data from `tasks.json`.
-
-### Saving data
+The application uses a separate function for creating database connections:
 
 ```python
-json.dump(tasks, file, indent=4)
+def get_connection():
+    return sqlite3.connect("tasks.db")
 ```
 
-The `save_tasks()` function writes task data to `tasks.json`.
+This allows the database connection logic to be reused by other functions.
 
-The project uses JSON because it is simple, human-readable, and suitable for
-learning file-based data persistence.
+### **Creating the database**
+
+```python
+create_database()
+```
+
+The function creates the `tasks` table if it does not already exist.
+
+### **Adding data**
+
+```python
+add_task(title, status)
+```
+
+A new task is inserted into the database.
+
+The function uses the generated database ID to associate the database record
+with the corresponding `Task` object.
+
+### **Reading data**
+
+```python
+get_tasks()
+```
+
+The function retrieves all tasks from the database.
+
+### **Updating data**
+
+```python
+complete_task(task_id)
+```
+
+The function updates the status of the selected task to:
+
+```text
+Complete
+```
+
+### **Deleting data**
+
+```python
+delete_task(task_id)
+```
+
+The function removes the selected task from the database.
 
 ---
 
-## Limitations
+## **CRUD Operations**
+
+The SQLite implementation follows the basic CRUD operations:
+
+| Operation | SQLite Action | Function |
+| --- | --- | --- |
+| Create | `INSERT` | `add_task()` |
+| Read | `SELECT` | `get_tasks()` |
+| Update | `UPDATE` | `complete_task()` |
+| Delete | `DELETE` | `delete_task()` |
+
+This provides persistent database-based task management.
+
+---
+
+## **Limitations**
 
 - The application currently runs only through the command-line interface.
-- No database is used yet.
 - No web interface is available.
 - No user authentication or authorization is implemented.
-- JSON storage is suitable for this learning project but is not ideal for
-  large-scale applications.
+- No cloud database is currently used.
+- Tasks are not associated with individual users.
 - No task search or filtering is currently available.
 - No task priorities are currently available.
 - No due dates or deadlines are currently available.
-- Tasks are not associated with individual users.
+- No AI-powered learning features are currently available.
+- The application currently focuses mainly on task management.
 
 ---
 
-## Future Improvements
+## **Future Improvements**
 
-- Add SQLite database support
 - Build a Flask web application
 - Develop RESTful APIs
 - Add user authentication and authorization
@@ -350,11 +536,16 @@ learning file-based data persistence.
 - Add AI-powered study assistance
 - Add student productivity analytics
 - Add user profiles
+- Add study schedules
+- Add learning progress tracking
+- Add quiz functionality
 - Build a complete student learning platform
+- Added application-level duplicate task prevention
+- Added database-level duplicate task prevention using a unique SQLite index
 
 ---
 
-## About the Project
+## **About the Project**
 
 StudySphere is a learning-focused project designed to grow alongside my
 Python Full Stack journey.
@@ -368,8 +559,13 @@ manage tasks while input validation and exception handling improved
 reliability.
 
 In **v2.0**, the application was upgraded with **JSON-based persistent
-storage**. Tasks are now saved to `tasks.json` and automatically loaded when
-the application starts.
+storage**. Tasks were stored in `tasks.json` and automatically loaded when
+the application started.
+
+In **v2.1**, the application was upgraded again by replacing JSON storage
+with a **SQLite database**. The new database layer provides persistent
+storage, CRUD operations, database-generated task IDs, and database
+exception handling.
 
 StudySphere follows an incremental development approach. Each version
 introduces new programming concepts and technologies while building on the
@@ -381,7 +577,7 @@ development, APIs, authentication, and AI-powered features.
 
 ---
 
-## Learning Objectives
+## **Learning Objectives**
 
 Through the development of StudySphere, the project focuses on learning and
 practicing the following concepts:
@@ -394,6 +590,9 @@ practicing the following concepts:
 - Input validation
 - File handling
 - JSON data storage
+- SQLite database
+- SQL fundamentals
+- CRUD operations
 - Persistent data management
 - Modular programming
 - Separation of responsibilities
@@ -407,14 +606,14 @@ practicing the following concepts:
 
 ---
 
-## Development Roadmap
+## **Development Roadmap**
 
 | Version | Description | Status |
 | --- | --- | --- |
 | v1.0 | CLI Task Manager (List + Dictionary) | ✅ Completed |
 | v1.1 | OOP + Exception Handling | ✅ Completed |
 | v2.0 | JSON Storage | ✅ Completed |
-| v2.1 | SQLite Database | ⏳ Planned |
+| v2.1 | SQLite Database | ✅ Completed |
 | v3.0 | Flask Web Application | ⏳ Planned |
 | v3.1 | Authentication & Authorization | ⏳ Planned |
 | v3.2 | REST API | ⏳ Planned |
@@ -422,43 +621,50 @@ practicing the following concepts:
 
 ---
 
-## Current Version
+## **Current Version**
 
-### v2.0 - JSON Storage
+### **v2.1 - SQLite Database**
 
-#### What's included in v2.0?
+#### **What's included in v2.1?**
 
 - `Task` class
 - `TaskManager` class
 - Task objects
+- Task ID support
 - `__str__()` magic method
-- `to_dict()` method
 - Add task functionality
 - View task functionality
 - Complete task functionality
 - Delete task functionality
 - Empty task validation
 - Task number validation
+- Display number handling
+- Database ID and display-number separation
 - `ValueError` exception handling
-- `FileNotFoundError` handling
-- `json.JSONDecodeError` handling
-- `PermissionError` handling
-- `TypeError` handling
-- `OSError` handling
+- `sqlite3.Error` handling
 - `KeyboardInterrupt` handling
 - `EOFError` handling
-- JSON file storage
+- SQLite database storage
 - Persistent task data
-- `load_tasks()` function
-- `save_tasks()` function
-- Automatic creation of `tasks.json`
-- Automatic recovery from invalid JSON data
+- `database.py`
+- `create_database()` function
+- `get_connection()` function
+- `add_task()` function
+- `get_tasks()` function
+- `complete_task()` function
+- `delete_task()` function
+- Automatic creation of `tasks.db`
+- Automatic creation of the `tasks` table
+- CRUD database operations
+- Database error handling
+- Safe deletion confirmation for pending tasks
+- Protection against completing an already completed task
 
 ---
 
-## Version History
+## **Version History**
 
-### v1.0
+### **v1.0**
 
 The initial version of StudySphere was developed as a basic command-line
 task manager using Python lists and dictionaries.
@@ -470,7 +676,7 @@ Users could:
 - Complete tasks
 - Delete tasks
 
-### v1.1
+### **v1.1**
 
 The project was upgraded using Object-Oriented Programming.
 
@@ -484,22 +690,45 @@ The following concepts were introduced:
 - Exception handling
 - Input validation
 
-### v2.0
+### **v2.0**
 
 The project was upgraded to use **JSON-based persistent storage**.
 
-Tasks are now stored in:
+Tasks were stored in:
 
 ```text
 tasks.json
 ```
 
-The application automatically loads existing tasks when it starts and saves
-changes when tasks are added, completed, or deleted.
+The application automatically loaded existing tasks when it started and saved
+changes when tasks were added, completed, or deleted.
+
+### **v2.1**
+
+The project was upgraded to use **SQLite-based persistent storage**.
+
+Tasks are now stored in:
+
+```text
+tasks.db
+```
+
+The application automatically creates the database and required table.
+
+The following features were introduced:
+
+- SQLite database
+- SQL CRUD operations
+- Database exception handling
+- Database-generated task IDs
+- Sequential display numbers
+- Display-number-to-database-ID mapping
+- Safe deletion confirmation
+- Protection against completing an already completed task
 
 ---
 
-## Git & Version Control
+## **Git & Version Control**
 
 StudySphere is developed incrementally using Git and GitHub.
 
@@ -534,7 +763,7 @@ of the development process.
 
 ---
 
-## Author
+## **Author**
 
 CHAMARTHI MANIKANTA
 

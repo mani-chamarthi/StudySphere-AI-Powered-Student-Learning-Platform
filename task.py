@@ -1,13 +1,8 @@
 class Task:
-    def __init__(self, title):
+    def __init__(self, title, status="Pending", task_id=None):
+        self.id = task_id
         self.title = title
-        self.status = "Pending"
+        self.status = status
 
     def __str__(self):
         return f"{self.title} - {self.status}"
-    
-    def to_dict(self):
-        return {
-            "title": self.title,
-            "status": self.status
-        }
